@@ -57,6 +57,7 @@
     <Compile Include="Models\CardInformation.cs" />
     <Compile Include="Models\CustomerInformation.cs" />
     <Compile Include="Models\OrderInformation.cs" />
+    <Compile Include="Models\PaymentError.cs" />
     <Compile Include="Models\PaymentInfo.cs" />
     <Compile Include="Models\ProcessRequestOptions.cs" />
     <Compile Include="Models\ProcessResponse.cs" />

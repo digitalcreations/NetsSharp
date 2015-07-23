@@ -15,5 +15,7 @@
         public TerminalInformation TerminalInformation { get; set; }
 
         public TransactionLogLine[] History { get; set; }
+
+        public PaymentError[] ErrorLog { get; set; }
     }
 }
