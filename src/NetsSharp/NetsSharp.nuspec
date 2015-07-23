@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>NetsSharp</id>
-    <version>$version$</version>
+    <version>0.1.2</version>
     <title>NetsSharp</title>
     <authors>Digital Creations AS</authors>
     <owners>vegardlarsen francisrath</owners>
@@ -14,4 +14,7 @@
     <copyright>Copyright 2015 Digital Creations AS</copyright>
     <tags>payment nets netaxept</tags>
   </metadata>
+  <files>
+    <file src="bin\Release\NetsSharp.dll" target="lib\portable-net45+netcore45+wpa81+wp8\NetsSharp.dll" />
+  </files>
 </package>
