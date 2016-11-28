@@ -25,7 +25,8 @@ namespace NetsSharp
                     { "ValidationException", el => new ValidationException(el) },
                     { "SecurityException", el => new SecurityException() },
                     { "QueryException", el => new QueryException() },
-                    { "NotSupportedException", el => new NotSupportedException() }
+                    { "NotSupportedException", el => new NotSupportedException() },
+                    { "UniqueTransactionIdException", el => new UniqueTransactionIdException(el) }
                 };
 
         public async Task<TResponse> CallAsync<TResponse>(Uri endpoint)

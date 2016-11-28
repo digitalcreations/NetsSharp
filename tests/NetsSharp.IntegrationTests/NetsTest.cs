@@ -47,5 +47,23 @@
             Assert.Equal(500, data.OrderInformation.Total);
             Assert.Equal("NOK", data.OrderInformation.Currency);
         }
+
+        [Fact]
+        public async Task RegisterTransaction_WhenTransactionIdAlreadyExists_ShouldThrowUniqueTransactionIdException()
+        {
+            var transactionId = DateTime.Now.Ticks;
+            var nets = new Nets(MerchantId, Token, new HttpClientApiCaller(), Endpoints.Test);
+            await nets.RegisterAsync("12345", 500, "NOK", new RegisterOptions
+            {
+                TransactionId = transactionId.ToString(),
+                RedirectUrl = new Uri("http://localhost/Test")
+            });
+
+            await Assert.ThrowsAsync<UniqueTransactionIdException>(() => nets.RegisterAsync("12345", 500, "NOK", new RegisterOptions
+            {
+                TransactionId = transactionId.ToString(),
+                RedirectUrl = new Uri("http://localhost/Test")
+            }));
+        }
     }
 }
