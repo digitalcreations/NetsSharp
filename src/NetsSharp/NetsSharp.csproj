@@ -1,112 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9805F189-902B-46BF-BC55-E41D5C1FB371}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetsSharp</RootNamespace>
-    <AssemblyName>NetsSharp</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>87bd957c</NuGetPackageImportStamp>
+    <TargetFrameworks>netstandard1.3;netstandard2.0;net451</TargetFrameworks>
+    <PackageId>NetsSharp</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Title>NetsSharp is s C# wrapper for the Nets REST API. It simplifies using their payment services greatly.</Title>
+    <Copyright>Copyright 2015-2017 Digital Creations AS.</Copyright>
+    <RepositoryUrl>https://github.com/digitalcreations/NetsSharp</RepositoryUrl>
+    <PackageTags>payment nets netaxept</PackageTags>
+    <Authors>vegardlarsen;francisrath</Authors>
+    <IncludeSymbols>True</IncludeSymbols>
+    <PackageReleaseNotes>Now targets netstandard1.3, netstandard2.0 and net451</PackageReleaseNotes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Endpoints.cs" />
-    <Compile Include="EndpointsInstance.cs" />
-    <Compile Include="Exceptions\AuthenticationException.cs" />
-    <Compile Include="Exceptions\BBSException.cs" />
-    <Compile Include="Exceptions\GenericErrorException.cs" />
-    <Compile Include="Exceptions\MerchantTranslationException.cs" />
-    <Compile Include="Exceptions\NotSupportedException.cs" />
-    <Compile Include="Exceptions\ProcessException.cs" />
-    <Compile Include="Exceptions\QueryException.cs" />
-    <Compile Include="Exceptions\SecurityException.cs" />
-    <Compile Include="Exceptions\UniqueTransactionIdException.cs" />
-    <Compile Include="Exceptions\ValidationException.cs" />
-    <Compile Include="HttpClientApiCaller.cs" />
-    <Compile Include="HttpQueryBuilder.cs" />
-    <Compile Include="IApiCaller.cs" />
-    <Compile Include="IEndpoints.cs" />
-    <Compile Include="Exceptions\InvalidResponseException.cs" />
-    <Compile Include="Models\CardInformation.cs" />
-    <Compile Include="Models\CustomerInformation.cs" />
-    <Compile Include="Models\OrderInformation.cs" />
-    <Compile Include="Models\PaymentError.cs" />
-    <Compile Include="Models\PaymentInfo.cs" />
-    <Compile Include="Models\ProcessRequestOptions.cs" />
-    <Compile Include="Models\ProcessResponse.cs" />
-    <Compile Include="Models\RegisterOptions.cs" />
-    <Compile Include="Models\SecurityInformation.cs" />
-    <Compile Include="Models\Summary.cs" />
-    <Compile Include="Models\TerminalInformation.cs" />
-    <Compile Include="Models\TransactionLogLine.cs" />
-    <Compile Include="Nets.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Language.cs" />
-    <Compile Include="Models\RegisterResponse.cs" />
-    <Compile Include="RequestBuilder.cs" />
-    <Compile Include="ResponseCodeError.cs" />
-    <Compile Include="ResponseCodeField.cs" />
-    <Compile Include="ServiceType.cs" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
+    <PackageReference Include="Microsoft.Net.Http">
+      <Version>2.2.29</Version>
+    </PackageReference>
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="packages.config" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Net.Http">
-      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
-  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

@@ -1,6 +1,6 @@
 # NetsSharp
 
-NetsSharp is a portable C# wrapper for [the Nets REST API](http://www.betalingsterminal.no/Netthandel-forside/Teknisk-veiledning/API/).
+NetsSharp is a portable C# wrapper for [the Nets REST API](https://shop.nets.eu/web/partners/appi).
 
 It simplifies using their payment services greatly. You will need to be familiar with how their API works for this library to make sense.
 
@@ -21,7 +21,7 @@ var nets = NetsSharp.Nets.Create(
     NetsSharp.Endpoints.Live);
 var transactionId = await nets.RegisterAsync("order1", 100, "NOK",
     new RegisterOptions {
-		RedirectUri = new Uri("http://localhost/return_from_nets")
+        RedirectUri = new Uri("http://localhost/return_from_nets")
     });
 var terminalUri = nets.GetTerminalEndpoint(transactionId);
 // Now redirect the user's browser to terminalUri.
@@ -63,7 +63,7 @@ var nets = NetsSharp.Nets.Create(
     NetsSharp.Endpoints.Live);
 var transactionId = await nets.RegisterAsync("order1", 100, "NOK",
     new RegisterOptions {
-		RedirectUri = new Uri("http://localhost/return_from_nets"),
+        RedirectUri = new Uri("http://localhost/return_from_nets"),
         ServiceType = ServiceType.MerchantHosted
     });
 ```
@@ -73,7 +73,7 @@ var transactionId = await nets.RegisterAsync("order1", 100, "NOK",
 Nice little snippet for easily parsing the response code when the user is redirected back to you:
 
 ```cs
-try 
+try
 {
     if (Nets.InterpretResponseCode(responseCode)) 
     {

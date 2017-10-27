@@ -1,14 +1,14 @@
-namespace NetsSharp
-{
-    using System;
+using System;
 
+namespace NetsSharp.Models
+{
     public class RegisterOptions
     {
         public RegisterOptions()
         {
-            this.ServiceType = ServiceType.Hosted;
-            this.Language = Language.Norwegian;
-            this.EnvironmentLanguage = "C#";
+            ServiceType = ServiceType.Hosted;
+            Language = Language.Norwegian;
+            EnvironmentLanguage = "C#";
         }
 
         /// <summary>
@@ -161,10 +161,12 @@ namespace NetsSharp
 
         public string CustomerPostCode { get; set; }
         public string CustomerTown { get; set; }
+
         /// <summary>
         /// The customer's country. This should follow ISO 3166-1 Alpha 2 code. Typical examples would be "NO", "SE", "DK", "FI" etc.
         /// </summary>
         public string CustomerCountry { get; set; }
+
         /// <summary>
         /// The customer's social security number. Required for PayByBill.
         /// </summary>

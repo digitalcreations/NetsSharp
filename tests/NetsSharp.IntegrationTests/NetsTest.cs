@@ -2,25 +2,23 @@
 {
     using System;
     using System.Threading.Tasks;
-
-    using NetsSharp.Exceptions;
-
+    using Exceptions;
+    using Models;
     using Xunit;
 
     public class NetsTest
     {
-        private const string MerchantId = "foo";
-
-        private const string Token = "bar";
+        private const string MerchantId = "1234567";
+        private const string Token = "pa55w0rd";
 
         [Fact]
         public async Task CreateOrderSuccessFully()
         {
             var nets = new Nets(MerchantId, Token, new HttpClientApiCaller(), Endpoints.Test);
             var transactionId = await nets.RegisterAsync("12345", 100, "NOK", new RegisterOptions
-                {
-                    RedirectUrl = new Uri("http://localhost/Test")
-                });
+            {
+                RedirectUrl = new Uri("http://localhost/Test")
+            });
             Assert.False(string.IsNullOrEmpty(transactionId));
         }
 
@@ -28,7 +26,7 @@
         public async Task CreateOrderWithWrongTokens()
         {
             var nets = new Nets("foo", "bar", new HttpClientApiCaller(), Endpoints.Test);
-            await Assert.ThrowsAsync<AuthenticationException>(async () => 
+            await Assert.ThrowsAsync<AuthenticationException>(async () =>
                 await nets.RegisterAsync("12345", 100, "NOK", new RegisterOptions
                 {
                     RedirectUrl = new Uri("http://localhost/Test")
@@ -59,11 +57,12 @@
                 RedirectUrl = new Uri("http://localhost/Test")
             });
 
-            await Assert.ThrowsAsync<UniqueTransactionIdException>(() => nets.RegisterAsync("12345", 500, "NOK", new RegisterOptions
-            {
-                TransactionId = transactionId.ToString(),
-                RedirectUrl = new Uri("http://localhost/Test")
-            }));
+            await Assert.ThrowsAsync<UniqueTransactionIdException>(() => nets.RegisterAsync("12345", 500, "NOK",
+                new RegisterOptions
+                {
+                    TransactionId = transactionId.ToString(),
+                    RedirectUrl = new Uri("http://localhost/Test")
+                }));
         }
     }
 }

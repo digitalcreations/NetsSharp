@@ -1,7 +1,5 @@
 namespace NetsSharp
 {
-    using System;
-
     public sealed class ServiceType
     {
         private readonly string _value;
@@ -12,12 +10,12 @@ namespace NetsSharp
 
         private ServiceType(string value)
         {
-            this._value = value;
+            _value = value;
         }
 
-        public override String ToString()
+        public override string ToString()
         {
-            return this._value;
+            return _value;
         }
     }
 }

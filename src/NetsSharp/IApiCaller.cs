@@ -3,7 +3,7 @@ namespace NetsSharp
     using System;
     using System.Threading.Tasks;
 
-    interface IApiCaller
+    internal interface IApiCaller
     {
         Task<TResponse> CallAsync<TResponse>(Uri endpoint);
     }

@@ -1,14 +1,14 @@
 ﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("NetsSharp.IntegrationTests")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("NetsSharp.UnitTests")]
+
 namespace NetsSharp
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using NetsSharp.Exceptions;
-    using NetsSharp.Models;
+    using Exceptions;
+    using Models;
 
     public class Nets
     {
@@ -27,17 +27,17 @@ namespace NetsSharp
 
         internal Nets(string merchantId, string token, IApiCaller caller, IEndpoints endpoints)
         {
-            this._merchantId = merchantId;
-            this._token = token;
-            this._caller = caller;
-            this._endpoints = endpoints;
+            _merchantId = merchantId;
+            _token = token;
+            _caller = caller;
+            _endpoints = endpoints;
         }
 
         public Uri GetTerminalEndpoint(string transactionId)
         {
-            var ub = new UriBuilder(this._endpoints.Terminal);
+            var ub = new UriBuilder(_endpoints.Terminal);
             var qb = new HttpQueryBuilder();
-            qb.Add("merchantId", this._merchantId);
+            qb.Add("merchantId", _merchantId);
             qb.Add("transactionId", transactionId);
             ub.Query = qb.ToString();
             return ub.Uri;
@@ -51,31 +51,32 @@ namespace NetsSharp
         /// <param name="currencyCode">The currency code, following ISO 4217. Typical examples include "NOK" and "USD".</param>
         /// <param name="options">Extra options</param>
         /// <returns>Transaction ID</returns>
-        public async Task<string> RegisterAsync(string orderNumber, int amountInCents, string currencyCode, RegisterOptions options = null)
+        public async Task<string> RegisterAsync(string orderNumber, int amountInCents, string currencyCode,
+            RegisterOptions options = null)
         {
             var rb = new RequestBuilder();
-            var uri = rb.GetUri(this._endpoints.Register, new Dictionary<string, string>
-                                                              {
-                                                                  { "merchantId", this._merchantId },
-                                                                  { "token", this._token },
-                                                                  { "orderNumber", orderNumber },
-                                                                  { "amount", amountInCents.ToString() },
-                                                                  { "currencyCode", currencyCode.ToUpperInvariant() }
-                                                              }, options ?? new RegisterOptions());
-            var response = await this._caller.CallAsync<RegisterResponse>(uri);
+            var uri = rb.GetUri(_endpoints.Register, new Dictionary<string, string>
+            {
+                {"merchantId", _merchantId},
+                {"token", _token},
+                {"orderNumber", orderNumber},
+                {"amount", amountInCents.ToString()},
+                {"currencyCode", currencyCode.ToUpperInvariant()}
+            }, options ?? new RegisterOptions());
+            var response = await _caller.CallAsync<RegisterResponse>(uri);
             return response.TransactionId;
         }
 
         public async Task<PaymentInfo> QueryAsync(string transactionId)
         {
             var rb = new RequestBuilder();
-            var uri = rb.GetUri(this._endpoints.Query, new Dictionary<string, string>
-                                                              {
-                                                                  { "merchantId", this._merchantId },
-                                                                  { "token", this._token },
-                                                                  { "transactionId", transactionId }
-                                                              });
-            return await this._caller.CallAsync<PaymentInfo>(uri);
+            var uri = rb.GetUri(_endpoints.Query, new Dictionary<string, string>
+            {
+                {"merchantId", _merchantId},
+                {"token", _token},
+                {"transactionId", transactionId}
+            });
+            return await _caller.CallAsync<PaymentInfo>(uri);
         }
 
         public static bool InterpretResponseCode(string responseCode)
@@ -84,8 +85,8 @@ namespace NetsSharp
 
             var parts = responseCode.Split(',');
             var errors = parts.Select(p => new KeyValuePair<ResponseCodeField, ResponseCodeError>(
-                (ResponseCodeField)Enum.Parse(typeof(ResponseCodeField), p.Split(':')[0], true), 
-                (ResponseCodeError)Enum.Parse(typeof(ResponseCodeError), p.Split(':')[1], true)));
+                (ResponseCodeField) Enum.Parse(typeof(ResponseCodeField), p.Split(':')[0], true),
+                (ResponseCodeError) Enum.Parse(typeof(ResponseCodeError), p.Split(':')[1], true)));
             throw new InvalidResponseException(errors);
         }
 
@@ -98,17 +99,18 @@ namespace NetsSharp
         private const string OperationCredit = "CREDIT";
         private const string OperationAnnul = "ANNUL";
 
-        private async Task ProcessInternalAsync(string operation, string transactionId, ProcessRequestOptions options = null)
+        private async Task ProcessInternalAsync(string operation, string transactionId,
+            ProcessRequestOptions options = null)
         {
             var rb = new RequestBuilder();
-            var uri = rb.GetUri(this._endpoints.Process, new Dictionary<string, string>
-                                                              {
-                                                                  { "merchantId", this._merchantId },
-                                                                  { "token", this._token },
-                                                                  { "transactionId", transactionId },
-                                                                  { "operation", operation }
-                                                              }, options ?? new ProcessRequestOptions());
-            var response = await this._caller.CallAsync<ProcessResponse>(uri);
+            var uri = rb.GetUri(_endpoints.Process, new Dictionary<string, string>
+            {
+                {"merchantId", _merchantId},
+                {"token", _token},
+                {"transactionId", transactionId},
+                {"operation", operation}
+            }, options ?? new ProcessRequestOptions());
+            var response = await _caller.CallAsync<ProcessResponse>(uri);
             if (response.ResponseCode != "OK")
             {
                 throw new ProcessException(response);
@@ -117,33 +119,34 @@ namespace NetsSharp
 
         public async Task SaleAsync(string transactionId, ProcessRequestOptions options = null)
         {
-            await this.ProcessInternalAsync(OperationSale, transactionId, options);
+            await ProcessInternalAsync(OperationSale, transactionId, options);
         }
 
         public async Task AuthAsync(string transactionId, ProcessRequestOptions options)
         {
-            await this.ProcessInternalAsync(OperationAuth, transactionId, options);
+            await ProcessInternalAsync(OperationAuth, transactionId, options);
         }
 
         public async Task CaptureAsync(string transactionId, ProcessRequestOptions options)
         {
-            await this.ProcessInternalAsync(OperationCapture, transactionId, options);
+            await ProcessInternalAsync(OperationCapture, transactionId, options);
         }
 
         public async Task VerifyAsync(string transactionId, ProcessRequestOptions options)
         {
-            await this.ProcessInternalAsync(OperationVerify, transactionId, options);
+            await ProcessInternalAsync(OperationVerify, transactionId, options);
         }
 
         public async Task CreditAsync(string transactionId, ProcessRequestOptions options)
         {
-            await this.ProcessInternalAsync(OperationCredit, transactionId, options);
+            await ProcessInternalAsync(OperationCredit, transactionId, options);
         }
 
         public async Task AnnulAsync(string transactionId, ProcessRequestOptions options)
         {
-            await this.ProcessInternalAsync(OperationAnnul, transactionId, options);
+            await ProcessInternalAsync(OperationAnnul, transactionId, options);
         }
+
         #endregion
     }
 }

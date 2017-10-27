@@ -1,7 +1,5 @@
 namespace NetsSharp
 {
-    using System;
-
     public sealed class Language
     {
         private readonly string _value;
@@ -18,12 +16,12 @@ namespace NetsSharp
 
         private Language(string value)
         {
-            this._value = value;
+            _value = value;
         }
 
-        public override String ToString()
+        public override string ToString()
         {
-            return this._value;
+            return _value;
         }
     }
 }

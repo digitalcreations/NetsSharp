@@ -1,4 +1,4 @@
-﻿namespace NetsSharp
+﻿namespace NetsSharp.Models
 {
     public class RegisterResponse
     {

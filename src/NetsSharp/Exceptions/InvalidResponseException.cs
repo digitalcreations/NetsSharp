@@ -5,12 +5,12 @@ namespace NetsSharp.Exceptions
 
     public class InvalidResponseException : Exception
     {
-        public InvalidResponseException(IEnumerable<KeyValuePair<ResponseCodeField, ResponseCodeError>> errors) 
-            :base("The response from Nets indicates failure. See Errors property for details.")
+        public InvalidResponseException(IEnumerable<KeyValuePair<ResponseCodeField, ResponseCodeError>> errors)
+            : base("The response from Nets indicates failure. See Errors property for details.")
         {
-            this.Errors = errors;
+            Errors = errors;
         }
 
-        public IEnumerable<KeyValuePair<ResponseCodeField, ResponseCodeError>> Errors { get; private set; } 
+        public IEnumerable<KeyValuePair<ResponseCodeField, ResponseCodeError>> Errors { get; }
     }
 }

@@ -1,10 +1,7 @@
 ﻿namespace NetsSharp.UnitTests
 {
-    using System;
     using System.Collections.Generic;
-
-    using NetsSharp.Exceptions;
-
+    using Exceptions;
     using Xunit;
 
     public class ResponseCodeTests
@@ -15,35 +12,36 @@
             {
                 yield return
                     new object[]
+                    {
+                        "Cardnumber:TooManyDigits",
+                        new[]
                         {
-                            "Cardnumber:TooManyDigits",
-                            new[]
-                                {
-                                    new KeyValuePair<ResponseCodeField, ResponseCodeError>(
-                                        ResponseCodeField.CardNumber,
-                                        ResponseCodeError.TooManyDigits)
-                                }
-                        };
+                            new KeyValuePair<ResponseCodeField, ResponseCodeError>(
+                                ResponseCodeField.CardNumber,
+                                ResponseCodeError.TooManyDigits)
+                        }
+                    };
 
                 yield return
                     new object[]
+                    {
+                        "Cardnumber:TooManyDigits,SecurityCode:TooFewDigits",
+                        new[]
                         {
-                            "Cardnumber:TooManyDigits,SecurityCode:TooFewDigits",
-                            new[]
-                                {
-                                    new KeyValuePair<ResponseCodeField, ResponseCodeError>(
-                                        ResponseCodeField.CardNumber,
-                                        ResponseCodeError.TooManyDigits),
-                                    new KeyValuePair<ResponseCodeField, ResponseCodeError>(
-                                        ResponseCodeField.SecurityCode,
-                                        ResponseCodeError.TooFewDigits)
-                                }
-                        };
+                            new KeyValuePair<ResponseCodeField, ResponseCodeError>(
+                                ResponseCodeField.CardNumber,
+                                ResponseCodeError.TooManyDigits),
+                            new KeyValuePair<ResponseCodeField, ResponseCodeError>(
+                                ResponseCodeField.SecurityCode,
+                                ResponseCodeError.TooFewDigits)
+                        }
+                    };
             }
         }
 
         [Theory, MemberData("InterpretResponseCodeData")]
-        public void InterpretResponseCode(string responseCode, IEnumerable<KeyValuePair<ResponseCodeField, ResponseCodeError>> errors)
+        public void InterpretResponseCode(string responseCode,
+            IEnumerable<KeyValuePair<ResponseCodeField, ResponseCodeError>> errors)
         {
             var exception = Assert.Throws<InvalidResponseException>(() => Nets.InterpretResponseCode(responseCode));
             Assert.Equal(errors, exception.Errors);

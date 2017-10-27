@@ -11,6 +11,7 @@ namespace NetsSharp.Models
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        // ReSharper disable once InconsistentNaming
         public string IP { get; set; }
         public string PhoneNumber { get; set; }
         public string Postcode { get; set; }

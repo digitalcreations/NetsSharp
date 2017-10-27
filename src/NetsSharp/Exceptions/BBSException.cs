@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Xml.Linq;
 
+    // ReSharper disable once InconsistentNaming
     public class BBSException : Exception
     {
         public BBSException(XElement error)
